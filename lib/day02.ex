@@ -1,24 +1,24 @@
 defmodule Day02 do
   def decipher(instructions) do
-    do_decipher(5, [], parse_instructions(instructions))
+    do_decipher(5, [], parse_instructions(instructions), &next_digit/2)
   end
 
   defp parse_instructions(instructions) do
     String.split(instructions)
   end
 
-  defp do_decipher(_, digits, []), do: Enum.join(Enum.reverse(digits))
+  defp do_decipher(_, digits, [], _), do: Enum.join(Enum.reverse(digits))
 
-  defp do_decipher(pos, digits, [instruction | instructions]) do
-    digit = find_digit(pos, String.codepoints(instruction))
-    do_decipher(digit, [digit | digits], instructions)
+  defp do_decipher(pos, digits, [instruction | instructions], adv_func) do
+    digit = find_digit(pos, String.codepoints(instruction), adv_func)
+    do_decipher(digit, [digit | digits], instructions, adv_func)
   end
 
-  defp find_digit(pos, []), do: pos
+  defp find_digit(pos, [], _), do: pos
 
-  defp find_digit(pos, [dir | instruction]) do
-    current = next_digit(pos, dir)
-    find_digit(current, instruction)
+  defp find_digit(pos, [dir | instruction], adv_func) do
+    current = adv_func.(pos, dir)
+    find_digit(current, instruction, adv_func)
   end
 
   defp next_digit(pos, dir) do

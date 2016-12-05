@@ -1,6 +1,12 @@
 defmodule Day01 do
-  def distance(directions) do
-    do_distance(:up, 0, 0, directions)
+  def distance(directions_string) do
+    do_distance(:up, 0, 0, parse_directions(directions_string))
+  end
+
+  defp parse_directions(directions_string) do
+    directions_string
+      |> String.split(", ", trim: true)
+      |> Enum.map(&String.to_charlist/1)
   end
 
   defp do_distance(_, x, y, []), do: abs(x) + abs(y)

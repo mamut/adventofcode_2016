@@ -13,4 +13,13 @@ defmodule Day02Test do
     UUUUD
     """) == "1985"
   end
+
+  test "given example with advanced board" do
+    assert Day02.real_decipher("""
+    ULL
+    RRDDD
+    LURDL
+    UUUUD
+    """) == "5DB3"
+  end
 end

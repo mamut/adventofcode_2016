@@ -1,14 +1,39 @@
 defmodule Day04 do
   def sum_valid_sector_ids(codes) do
     parse_codes(codes)
+      |> Enum.filter(&valid_checksum/1)
+      |> Enum.reduce(0, fn [_, sector_id, _], acc -> sector_id + acc end)
+  end
+
+  def decipher_room_codes(codes) do
+    parse_codes(codes)
+      |> Enum.filter(&valid_checksum/1)
+      |> Enum.map(&decipher_room_code/1)
+  end
+
+  defp decipher_room_code([chars, sector_id, _]) do
+    deciphered = chars
+      |> String.to_charlist
+      |> Enum.map(fn code ->
+        case code do
+          ?- -> ?\s
+          x -> rotate(x, sector_id)
+        end
+      end)
+      |> List.to_string
+    [deciphered, sector_id]
+  end
+
+  defp rotate(char, shift) do
+    initial_shift = char - ?a
+    new_shift = rem(initial_shift + shift, ?z - ?a + 1)
+    new_shift + ?a
   end
 
   defp parse_codes(codes) do
     codes
       |> String.split("\n", trim: true)
       |> Enum.map(&parse_code/1)
-      |> Enum.filter(&valid_checksum/1)
-      |> Enum.reduce(0, fn [_, sector_id, _], acc -> sector_id + acc end)
   end
 
   defp valid_checksum([chars, _, checksum]), do: get_checksum(chars) == checksum

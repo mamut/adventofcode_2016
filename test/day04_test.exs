@@ -25,4 +25,10 @@ defmodule Day04Test do
     totally-real-room-200[decoy]
     """) == 1514
   end
+
+  test "deciphering room names" do
+    assert Day04.decipher_room_codes("""
+    qzmt-zixmtkozy-ivhz-343[zimth]
+    """) == [["very encrypted name", 343]]
+  end
 end

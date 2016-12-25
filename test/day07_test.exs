@@ -25,4 +25,29 @@ defmodule Day07Test do
     ioxxoj[asdfgh]zxcvbn
     """) == 2
   end
+
+  test "case 1b" do
+    assert Day07.count_ipv7s("aba[bab]xyz") == 1
+  end
+
+  test "case 2b" do
+    assert Day07.count_ipv7s("xyx[xyx]xyx") == 0
+  end
+
+  test "case 3b" do
+    assert Day07.count_ipv7s("aaa[kek]eke") == 1
+  end
+
+  test "case 4b" do
+    assert Day07.count_ipv7s("zazbz[bzb]cdb") == 1
+  end
+
+  test "total for second part" do
+    assert Day07.count_ipv7s("""
+    aba[bab]xyz
+    xyx[xyx]xyx
+    aaa[kek]eke
+    zazbz[bzb]cdb
+    """) == 3
+  end
 end
